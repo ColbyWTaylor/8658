@@ -1,0 +1,40 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+input {
+  text-align: center;
+  font-family: 'Hind', sans-serif;
+font-family: 'Fjalla One', sans-serif;
+font-size: 2rem;
+width: 100%;
+background-color: black;
+border-style: none;
+color: rgb(255, 0, 0);
+}
+
+input[type=text]:focus {
+  background-color: rgb(255, 0, 0);
+  color: black;
+  width: 100%;
+}
+
+form {
+  width: 100%;
+  border-style: none;
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: red;
+  opacity: 1; /* Firefox */
+}
