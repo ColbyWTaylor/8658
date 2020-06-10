@@ -1,15 +1,23 @@
 import React from 'react';
 // import logo from './logo.svg';
 import './App.css';
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useRef} from 'react';
+
+import {sound1} from './audio/clap.wav';
+import {sound2} from './audio/subkick.wav';
+
 
 function App() {
-    
+
+    console.log(sound1)
+    console.log(sound2)
+
     // let [words,setWords] = useState("asdf") DELETE if working
     let [cycleNumber, setCycleNumber] = useState(0)
     let [pattern, setPattern] = useState("")
     let soundSelect = ["boom", "bap"]
     let [outCome, setOutcome] = useState(soundSelect[0])
+    let [speed, updateSpeed] = useState(1000)
 
     let [power, setPower] = useState(true); // if power is true, app runs, if false, nothing 
     let [show, setShow] = useState(false)
@@ -29,20 +37,27 @@ function App() {
     const [current,setCurrent] = useState(pattern)
     const issues = ['making the "info" section appear without html tags- used dangerouselySetInnerHTML', 'need to get info from form, use e.target.value to send it']
 
-
 //https://medium.com/paul-jaworski/turning-off-autocomplete-in-chrome-ee3ff8ef0908#:~:text=tl%3Bdr%20Add%20a%20hidden,you%20wish%20to%20disable%20autocomplete.
 
 const make0or1 = (input) => {
     setPattern(input)
     }
 
+const PlaySound = props => {
+    console.log("sound1");
+ return (
+  <div>
+      <h1>Speaker</h1>
+ <audio ref="audio_tag" src={sound1} controls autoPlay/>
+ </div>  )  
+}
 
 const Clock = props => {
   const [date, setDate] = React.useState(new Date());
 
  //Replaces componentDidMount and componentWillUnmount
  React.useEffect(() => {
-  var timerID = setInterval( () => tick(), 1000 );
+  var timerID = setInterval( () => tick(), speed );
   return function cleanup() {
       clearInterval(timerID);
     };
@@ -60,18 +75,18 @@ const Clock = props => {
     );
 }
 
-
 const CyclingThing = props => {
     
     
     useEffect(() => {
-        var current = setInterval(()=> tick(), 1000);
+        var current = setInterval(()=> tick(), speed);
         return function cleanup() {
             clearInterval(current)
         }
     });
-
+    
 function tick() {
+    PlaySound();
     setCycleNumber(cycleNumber < pattern.length -1 ? cycleNumber+1 : 0)
     if (pattern[cycleNumber] === undefined) {
         console.log("it is undefined, enter something")
@@ -79,11 +94,8 @@ function tick() {
     } else if (pattern[cycleNumber] == "0") {
         
         console.log("equals zero")
-        setOutcome(soundSelect[0])
-        
-    
-    }
-    
+        setOutcome(soundSelect[0])    
+    } else 
     {
         console.log("it is not undefined")
         setOutcome(soundSelect[1])
@@ -94,7 +106,7 @@ function tick() {
 
 return (
     <>
-<p>This is current: {pattern[cycleNumber]}</p>
+<p>This is current pattern value: {pattern[cycleNumber]}</p>
 <p>{outCome}</p>
 </>
 )
@@ -109,7 +121,8 @@ return (
 
     <button onClick={() => {setPower(!power)}}>Power: {power ? "ON" : "OFF"}</button>
     <input value={pattern} onChange={ e => {make0or1(e.target.value)}}/>
-    <p>this is the current pattern value: {pattern}</p>
+    <input type="number" value={speed} onChange={ e => {updateSpeed(e.target.value)}}/>
+    <p>this is the current pattern: {pattern}</p>
     <CyclingThing />
     <button onClick={()=> {console.log(pattern)}}>click to update i hope</button>
     <button onClick={()=> {setPattern("whatever")}}>setpattern</button>
